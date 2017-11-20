@@ -1,5 +1,5 @@
 const {User} = require('../models')
-
+const passport = require('passport')
 module.exports = {
   async register (req,res) {
     try {
@@ -16,5 +16,28 @@ module.exports = {
         error: 'This email is already exist'
       })
     }
+  },
+  login (req,res,next) {
+    return passport.authenticate('local-login', (err, username) => {
+      if (err) {
+        if (err.name == 'IncorrectCredentialsError') {
+          return res.status(400).json({
+            success: false,
+            message: err.message
+          })
+        }
+
+        return res.status(400).json({
+          success: false,
+          message: 'Could not process the form'
+        })
+      }
+
+      return res.json({
+        success: true,
+        message: 'You have successfully logged in!',
+        username
+      })
+    })(req, res, next)
   }
 }

@@ -14,13 +14,10 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-<<<<<<< HEAD
     "axios": "^0.17.1",
-=======
->>>>>>> fb5c493b2fab726465c75cc9e9b0fba89da940c4
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
-    "vuetify": "^0.17.0"
+    "vuetify": "^0.17.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

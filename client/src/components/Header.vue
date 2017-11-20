@@ -1,34 +1,21 @@
 <template>
-  <v-layout>
-<<<<<<< HEAD
-  <v-toolbar class="cyan app-top-navigation" light>
-    <v-toolbar-title>Title</v-toolbar-title>
-    <v-spacer></v-spacer>
-    <v-toolbar-items>
-      <v-btn flat dark :to="{name: 'register'}">
-        Register
-      </v-btn>
-      <v-btn flat dark :to="{name: 'login'}">
-=======
-  <v-toolbar class="app-top-navigation" light>
-    <v-toolbar-title>Title</v-toolbar-title>
-    <v-spacer></v-spacer>
-    <v-toolbar-items>
-      <v-btn flat :to="{name: 'login'}">
->>>>>>> fb5c493b2fab726465c75cc9e9b0fba89da940c4
-        Login
-      </v-btn>
-    </v-toolbar-items>
+  <v-toolbar>
+   <v-toolbar-title ><router-link tag='span' to="home">Winterest</router-link></v-toolbar-title>
+  <v-spacer></v-spacer>
+  <v-btn
+    dark
+    :to="{name: 'login'}">
+   <v-icon class="">perm_identity</v-icon>Login
+  </v-btn>
+  <v-btn
+    dark
+    :to="{name: 'register'}">
+   <v-icon class="">supervisor_account</v-icon>Sign up
+  </v-btn>
   </v-toolbar>
-</v-layout>
 </template>
-
 <script>
-export default {
-}
+  export default {
+  }
 </script>
-<style scoped>
-.app-top-navigation {
-  margin-bottom: 20px;
-}
-</style>
+<style scoped></style>
