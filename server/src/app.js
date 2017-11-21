@@ -4,19 +4,15 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const {sequelize} = require('./models')
 const cors = require('cors')
-const passport = require('passport')
+const morgan = require('morgan')
 
 const app = express()
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(session({
-  secret: 'this is my secret'
-}))
-app.use(passport.initialize())
+app.use(morgan('dev'))
 
-const localLoginStategy = require('./config/passport/local')
-passport.use('local-login', localLoginStategy)
+require('./passport')
 
 require('./routes')(app)
 sequelize.sync()

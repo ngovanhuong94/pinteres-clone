@@ -1,5 +1,14 @@
 const {User} = require('../models')
 const passport = require('passport')
+const jwt = require('jsonwebtoken')
+const config = require('../config/index')
+
+function jwtSignUser (user) {
+ const ONE_WEEK = 60*60*24*7
+ return jwt.sign(user, config.authentication.jwtSecret, {
+   expiresIn: ONE_WEEK
+ })
+}
 module.exports = {
   async register (req,res) {
     try {
@@ -17,27 +26,35 @@ module.exports = {
       })
     }
   },
-  login (req,res,next) {
-    return passport.authenticate('local-login', (err, username) => {
-      if (err) {
-        if (err.name == 'IncorrectCredentialsError') {
-          return res.status(400).json({
-            success: false,
-            message: err.message
-          })
+  async login (req,res,next) {
+    try {
+      const {email, password} = req.body
+      const user = await User.findOne({
+        where: {
+          email: email
         }
-
-        return res.status(400).json({
-          success: false,
-          message: 'Could not process the form'
+      })
+      if(!user) {
+        return res.status(400).send({
+          error: 'The login information was incorrect'
         })
       }
-
-      return res.json({
-        success: true,
-        message: 'You have successfully logged in!',
-        username
+      const isValidPassword = await user.comparePassword(password)
+      if(!isValidPassword) {
+        return res.status(400).send({
+          error: 'The login information was incorrect'
+        })
+      }
+      const userJson = user.toJSON()
+      return res.send({
+        user: userJson,
+        token: jwtSignUser(userJson)
       })
-    })(req, res, next)
+    } catch (err) {
+      console.log(err)
+      res.status(400).send({
+        error: 'Sorry !. An error occured trying to login'
+      })
+    }
   }
 }

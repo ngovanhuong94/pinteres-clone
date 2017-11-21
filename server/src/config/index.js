@@ -7,5 +7,8 @@ module.exports = {
       dialect: process.env.DB_DIALECT || 'sqlite',
       storage: './pinterest-clone.sqlite'
     }
+  },
+  authentication: {
+    jwtSecret: process.env.JWT_TOKEN || 'secret'
   }
 }
